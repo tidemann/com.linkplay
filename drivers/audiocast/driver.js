@@ -3,10 +3,13 @@
 const Homey = require('homey');
 const Linkplay = require('../../lib/Linkplay');
 
+
 class LinkplayDriver extends Homey.Driver {
 
     onInit() {
         this.log('AudioCastDriver has been initiated');
+        new Homey.FlowCardAction('play_audio_url').register().registerRunListener((args, state) => args.device.playAudioUrl(args.audio_url));
+        new Homey.FlowCardAction('stop').register().registerRunListener((args, state) => args.device.stop());
     }
 
 

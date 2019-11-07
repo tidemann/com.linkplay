@@ -95,6 +95,27 @@ class LinkplayDevice extends Homey.Device {
         return this.service.getStatus()
     }
 
+
+    async playAudioUrl(audio_url) {
+        return this.service.playUrl(audio_url)
+            .then(() => {
+                return true;
+            })
+            .catch((err) => {
+                return false;
+            })
+    }
+    async stop() {
+        return this.service.stop()
+            .then(() => {
+                return true;
+            })
+            .catch((err) => {
+                return false;
+            })
+    }
+
+
     onDiscoveryResult(discoveryResult) {
         // Return a truthy value here if the discovery result matches your device.
         return discoveryResult.id === this.data.id;

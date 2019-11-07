@@ -73,6 +73,43 @@
       }
     }
   ],
+  "flow": {
+    "actions": [
+      {
+        "id": "play_audio_url",
+        "title": {
+          "en": "Play audio URL"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=audiocast"
+          },
+          {
+            "type": "text",
+            "name": "audio_url",
+            "placeholder": {
+              "en": "Enter URL"
+            }
+          }
+        ]
+      },
+      {
+        "id": "stop",
+        "title": {
+          "en": "Stop"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=audiocast"
+          }
+        ]
+      }
+    ]
+  },
   "images": {
     "large": "/assets/images/large.png",
     "small": "/assets/images/small.png"
