@@ -15,19 +15,18 @@
   "permissions": [],
   "discovery": {
     "audiocast": {
-      "type": "mdns-sd",
-      "mdns-sd": {
-        "name": "raop",
-        "protocol": "tcp"
+      "type": "ssdp",
+      "ssdp": {
+        "search": "urn:schemas-wiimu-com:service:PlayQueue:1"
       },
-      "id": "{{name}}",
+      "id": "{{headers.usn}}",
       "conditions": [
         [
           {
-            "field": "name",
+            "field": "headers.st",
             "match": {
-              "type": "regex",
-              "value": "00226C"
+              "type": "string",
+              "value": "urn:schemas-wiimu-com:service:PlayQueue:1"
             }
           }
         ]

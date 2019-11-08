@@ -16,6 +16,7 @@ class LinkplayDevice extends Homey.Device {
 
         this.image = new Homey.Image();
         this.image.setUrl(null);
+        this._currentImage = null;
         this.image.register()
             .then(() => {
                 return this.setAlbumArtImage(this.image);
@@ -85,9 +86,17 @@ class LinkplayDevice extends Homey.Device {
                 await this.setCapabilityValue('speaker_album', res.Album);
                 await this.setCapabilityValue('speaker_track', res.Title);
                 await this.setCapabilityValue('speaker_artist', res.Artist);
+
+                if (this._currentImage !== res.albumArtUri) {
+                    this._currentImage = res.albumArtUri;
+                    this.image.setUrl(res.albumArtUri ? res.albumArtUri : null);
+                    this.image.update();
+                }
                 // await this.setCapabilityValue('speaker_duration', res.mute === 0);
                 // await this.setCapabilityValue('speaker_position', res.mute === 0);
                 return res;
+            }).catch(e => {
+                this.log("Error getPlayerStatus: ", e)
             });
     }
 
@@ -105,6 +114,7 @@ class LinkplayDevice extends Homey.Device {
                 return false;
             })
     }
+
     async stop() {
         return this.service.stop()
             .then(() => {
@@ -118,20 +128,28 @@ class LinkplayDevice extends Homey.Device {
 
     onDiscoveryResult(discoveryResult) {
         // Return a truthy value here if the discovery result matches your device.
+
+        // this.log("onDiscoveryResult",discoveryResult);
+        // this.log("this.data",this.data);
         return discoveryResult.id === this.data.id;
     }
 
     async onDiscoveryAvailable(discoveryResult) {
+        // this.log("onDiscoveryAvailable",discoveryResult);
         // This method will be executed once when the device has been found (onDiscoveryResult returned true)
         this.service.setIp(discoveryResult.address);
         this.status = await this.service.getStatus(); // When this throws, the device will become unavailable.
     }
 
     onDiscoveryAddressChanged(discoveryResult) {
+        // this.log("onDiscoveryAddressChanged",discoveryResult);
+
         // Update your connection details here, reconnect when the device is offline
     }
 
     onDiscoveryLastSeenChanged(discoveryResult) {
+        // this.log("onDiscoveryLastSeenChanged",discoveryResult);
+
         // When the device is offline, try to reconnect here
     }
 

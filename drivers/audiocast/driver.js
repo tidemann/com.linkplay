@@ -30,6 +30,7 @@ class LinkplayDriver extends Homey.Driver {
                 this.log(device.host + " is probably not the device you're looking for", e)
             }
         }
+
         const devices = res.map(device => {
             return {
                 name: device.DeviceName,
